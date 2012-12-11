@@ -1,5 +1,5 @@
 Package.describe({
-	summary: "Stripe.js for Meteor"
+	summary: "Stripe.js and Node-Stripe brought to Meteor."
 });
 
 Package.on_use(function (api) {
