@@ -1,5 +1,3 @@
-if (typeof Stripe === 'undefined') Stripe = {};
-
 var https = __meteor_bootstrap__.require('https');
 var querystring = __meteor_bootstrap__.require('querystring');
 
