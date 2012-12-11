@@ -1,0 +1,11 @@
+{
+	"name": "stripe",
+	"description": "Stripe.js for Meteor",
+	"homepage": "#",
+	"author": "Tyler Johnson (http://vintyge.com)",
+	"version": "0.0.1",
+	"git": "#",
+	"packages": {
+		"another-cool-pkg": "0.1.1"
+	}
+}
