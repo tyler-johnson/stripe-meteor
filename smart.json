@@ -1,8 +1,8 @@
 {
-	"name": "stripe",
-	"description": "Stripe.js and Node-Stripe brought to Meteor.",
-	"homepage": "https://github.com/appleifreak/stripe-meteor.git",
+	"name": "postmark",
+	"description": "Postmark.js brought to Meteor. Client and Server compatible.",
+	"homepage": "",
 	"author": "Tyler Johnson (http://vintyge.com)",
-	"version": "1.0.0",
-	"git": "https://github.com/appleifreak/stripe-meteor.git"
+	"version": "0.0.1",
+	"git": ""
 }

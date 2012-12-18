@@ -1,8 +1,9 @@
 Package.describe({
-	summary: "Stripe.js and Node-Stripe brought to Meteor."
+	summary: "Postmark.js brought to Meteor. Client and Server compatible."
 });
 
 Package.on_use(function (api) {
-	api.add_files('stripe_client.js', 'client');
-	api.add_files('stripe_server.js', 'server');
+	api.use('http', ['client','server']);
+
+	api.add_files('postmark.js',['client','server']);
 });
