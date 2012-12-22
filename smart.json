@@ -1,6 +1,6 @@
 {
 	"name": "postmark",
-	"description": "Postmark.js brought to Meteor.",
+	"description": "Postmark.js brought to Meteor. Client and Server compatible.",
 	"homepage": "",
 	"author": "Tyler Johnson (http://vintyge.com)",
 	"version": "0.0.1",
