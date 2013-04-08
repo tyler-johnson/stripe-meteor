@@ -1,5 +1,5 @@
-var https = __meteor_bootstrap__.require('https');
-var querystring = __meteor_bootstrap__.require('querystring');
+var https = Npm.require('https');
+var querystring = Npm.require('querystring');
 
 function setup_response_handler(req, callback) {
 	if (typeof callback !== "function") {
