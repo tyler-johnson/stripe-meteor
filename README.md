@@ -1,4 +1,4 @@
-A small port of Stripe.js (<https://stripe.com/docs/stripe.js>) and Stripe for Node.js (<https://github.com/abh/node-stripe>) for Meteor. Stripe.js is a direct copy of <https://js.stripe.com/v1/>. The server side is almost entirely by Ask Bjørn Hansen (<https://github.com/abh>), just slightly prepared for Meteor.
+A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>) and Stripe for Node.js (<https://github.com/abh/node-stripe>). Stripe.js is a direct copy of <https://js.stripe.com/v1/>.
 
 ## Usage
 
