@@ -1,19 +1,21 @@
 (function() {
-
   this.StripeCheckout = {};
 
   StripeCheckout.load = function() {
     var _ref;
+
     return (_ref = StripeCheckout.App).load.apply(_ref, arguments);
   };
 
   StripeCheckout.open = function() {
     var _ref;
+
     return (_ref = StripeCheckout.App).open.apply(_ref, arguments);
   };
 
   StripeCheckout.setHost = function() {
     var _ref;
+
     return (_ref = StripeCheckout.App).setHost.apply(_ref, arguments);
   };
 
@@ -375,6 +377,7 @@ if (!JSON) {
     interval && clearInterval(interval);
     return interval = setInterval(function() {
       var hash;
+
       hash = window.location.hash;
       if (hash !== lastHash && re.test(hash)) {
         window.location.hash = '';
@@ -403,6 +406,7 @@ if (!JSON) {
 
   $$ = function(cls) {
     var el, reg, _i, _len, _ref, _results;
+
     if (typeof document.getElementsByClassName === 'function') {
       return document.getElementsByClassName(cls);
     } else if (typeof document.querySelectorAll === 'function') {
@@ -431,6 +435,7 @@ if (!JSON) {
 
   hasAttr = function(element, attr) {
     var node;
+
     if (typeof element.hasAttribute === 'function') {
       return element.hasAttribute(attr);
     } else {
@@ -493,11 +498,13 @@ if (!JSON) {
 
   remove = function(element) {
     var _ref;
+
     return (_ref = element.parentNode) != null ? _ref.removeChild(element) : void 0;
   };
 
   parents = function(node) {
     var ancestors;
+
     ancestors = [];
     while ((node = node.parentNode) && node !== document && __indexOf.call(ancestors, node) < 0) {
       ancestors.push(node);
@@ -507,6 +514,7 @@ if (!JSON) {
 
   host = function(url) {
     var parent, parser;
+
     parent = document.createElement('div');
     parent.innerHTML = "<a href=\"" + (escape(url)) + "\">x</a>";
     parser = parent.firstChild;
@@ -515,6 +523,7 @@ if (!JSON) {
 
   resolve = function(url) {
     var parser;
+
     parser = document.createElement('a');
     parser.href = url;
     return "" + parser.href;
@@ -535,6 +544,7 @@ if (!JSON) {
 
   except = function() {
     var k, keys, object, result, v;
+
     object = arguments[0], keys = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
     result = {};
     for (k in object) {
@@ -588,6 +598,7 @@ if (!JSON) {
     rpcID: 0,
     invoke: function() {
       var args, frame, id, message, method;
+
       frame = arguments[0], method = arguments[1], args = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
       id = ++this.rpcID;
       if (typeof args[args.length - 1] === 'function') {
@@ -603,11 +614,13 @@ if (!JSON) {
     },
     invokeTarget: function() {
       var args;
+
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       return this.invoke.apply(this, [this.getTarget()].concat(__slice.call(args)));
     },
     message: function(e) {
       var data, result, _name, _ref;
+
       if (host(e.origin) !== host(this.getHost())) {
         return;
       }
@@ -625,6 +638,7 @@ if (!JSON) {
     },
     ready: function(fn) {
       var callbacks, cb, _i, _len, _results;
+
       this.readyQueue || (this.readyQueue = []);
       this.readyStatus || (this.readyStatus = false);
       if (typeof fn === 'function') {
@@ -646,6 +660,7 @@ if (!JSON) {
     },
     frameCallback: function(id, result) {
       var _base;
+
       if (!this.callbacks) {
         return;
       }
@@ -669,14 +684,25 @@ if (!JSON) {
   _ref = StripeCheckout.Utils, $ = _ref.$, $$ = _ref.$$, bind = _ref.bind, css = _ref.css, append = _ref.append, remove = _ref.remove, host = _ref.host, resolve = _ref.resolve;
 
   StripeCheckout.App = (function() {
+    function App() {
+      this.close = __bind(this.close, this);
+      this.open = __bind(this.open, this);
+      this.load = __bind(this.load, this);
+    }
+
+    App.setOptions = function(options) {
+      App.instance || (App.instance = new App);
+      return App.instance.setOptions(options);
+    };
 
     App.load = function(options) {
-      return App.instance || (App.instance = new App(options));
+      App.setOptions(options);
+      return App.instance.load();
     };
 
     App.open = function(options) {
-      App.instance || (App.instance = new App);
-      App.instance.open(options);
+      App.load(options);
+      App.instance.open();
       return App.instance;
     };
 
@@ -686,7 +712,7 @@ if (!JSON) {
 
     App.prototype.defaults = {
       path: '/',
-      fallbackPath: '/fallback.html',
+      fallbackPath: '/v2/fallback.html',
       host: 'https://checkout.stripe.com',
       address: false,
       amount: null,
@@ -699,34 +725,24 @@ if (!JSON) {
       notrack: false
     };
 
-    function App(options) {
+    App.prototype.load = function() {
       var _base;
-      if (options == null) {
-        options = {};
-      }
-      this.close = __bind(this.close, this);
 
-      this.open = __bind(this.open, this);
-
-      this.setOptions(options);
-      if (StripeCheckout.App.Fallback.isEnabled()) {
-        this.view = new StripeCheckout.App.Fallback(this.options);
-      } else if (StripeCheckout.App.Mobile.isEnabled()) {
-        this.view = new StripeCheckout.App.Mobile(this.options);
-      } else {
-        this.view = new StripeCheckout.App.Overlay(this.options);
+      if (!this.view) {
+        if (StripeCheckout.App.Fallback.isEnabled()) {
+          this.view = new StripeCheckout.App.Fallback(this.options);
+        } else if (StripeCheckout.App.Mobile.isEnabled()) {
+          this.view = new StripeCheckout.App.Mobile(this.options);
+        } else {
+          this.view = new StripeCheckout.App.Overlay(this.options);
+        }
+        return typeof (_base = this.view).render === "function" ? _base.render() : void 0;
       }
-      if (typeof (_base = this.view).render === "function") {
-        _base.render();
-      }
-    }
+    };
 
-    App.prototype.open = function(options) {
+    App.prototype.open = function() {
       var _base;
-      if (options == null) {
-        options = {};
-      }
-      this.setOptions(options);
+
       return typeof (_base = this.view).open === "function" ? _base.open() : void 0;
     };
 
@@ -736,6 +752,7 @@ if (!JSON) {
 
     App.prototype.setOptions = function(options) {
       var key, value, _base, _ref1, _ref2, _ref3;
+
       if (options == null) {
         options = {};
       }
@@ -773,7 +790,6 @@ if (!JSON) {
   except = StripeCheckout.Utils.except;
 
   StripeCheckout.App.Fallback = (function() {
-
     Fallback.isEnabled = function() {
       return !('postMessage' in window);
     };
@@ -781,12 +797,12 @@ if (!JSON) {
     function Fallback(options) {
       this.options = options != null ? options : {};
       this.setToken = __bind(this.setToken, this);
-
     }
 
     Fallback.prototype.open = function() {
       var message, options, url,
         _this = this;
+
       url = this.options.host + this.options.fallbackPath;
       options = except(this.options, 'body', 'script', 'document', 'token');
       message = JSON.stringify(options);
@@ -803,6 +819,7 @@ if (!JSON) {
 
     Fallback.prototype.setToken = function(token) {
       var _base;
+
       if (typeof (_base = this.options).token === "function") {
         _base.token(token);
       }
@@ -823,9 +840,9 @@ if (!JSON) {
   _ref = StripeCheckout.Utils, $ = _ref.$, $$ = _ref.$$, bind = _ref.bind, css = _ref.css, append = _ref.append, remove = _ref.remove, host = _ref.host, resolve = _ref.resolve, except = _ref.except;
 
   StripeCheckout.App.Mobile = (function() {
-
     Mobile.include = function(module) {
       var key, value, _results;
+
       _results = [];
       for (key in module) {
         value = module[key];
@@ -842,6 +859,7 @@ if (!JSON) {
 
     Mobile.isMobileEnv = function() {
       var ua;
+
       ua = window.navigator.userAgent;
       return /(Android|iPhone|iPad|CriOS)/i.test(ua);
     };
@@ -852,11 +870,12 @@ if (!JSON) {
 
     function Mobile(options) {
       var _this = this;
+
       this.options = options != null ? options : {};
       this.setToken = __bind(this.setToken, this);
-
       bind(window, 'message', function() {
         var args;
+
         args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
         return _this.message.apply(_this, args);
       });
@@ -865,9 +884,11 @@ if (!JSON) {
     Mobile.prototype.open = function() {
       var _base,
         _this = this;
+
       this.readyStatus = false;
       this.ready(function() {
         var options;
+
         options = except(_this.options, 'body', 'script', 'document', 'token');
         return _this.invokeTarget('render', 'mobile', options);
       });
@@ -895,6 +916,7 @@ if (!JSON) {
 
     Mobile.prototype.setToken = function(token) {
       var _base;
+
       if (typeof (_base = this.options).token === "function") {
         _base.token(token);
       }
@@ -915,9 +937,9 @@ if (!JSON) {
   _ref = StripeCheckout.Utils, $ = _ref.$, $$ = _ref.$$, bind = _ref.bind, css = _ref.css, append = _ref.append, remove = _ref.remove, host = _ref.host, resolve = _ref.resolve, except = _ref.except;
 
   StripeCheckout.App.Overlay = (function() {
-
     Overlay.include = function(module) {
       var key, value, _results;
+
       _results = [];
       for (key in module) {
         value = module[key];
@@ -934,29 +956,22 @@ if (!JSON) {
 
     function Overlay(options) {
       var _this = this;
+
       this.options = options != null ? options : {};
       this.toggleTabIndex = __bind(this.toggleTabIndex, this);
-
       this.renderFrame = __bind(this.renderFrame, this);
-
       this.closed = __bind(this.closed, this);
-
       this.setToken = __bind(this.setToken, this);
-
       this.overlayClosed = __bind(this.overlayClosed, this);
-
       this.getHost = __bind(this.getHost, this);
-
       this.getTarget = __bind(this.getTarget, this);
-
       this.close = __bind(this.close, this);
-
       this.open = __bind(this.open, this);
-
+      this.initializeKey = __bind(this.initializeKey, this);
       this.render = __bind(this.render, this);
-
       bind(window, 'message', function() {
         var args;
+
         args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
         return _this.message.apply(_this, args);
       });
@@ -970,15 +985,30 @@ if (!JSON) {
       this.frame.className = 'stripe-app';
       css(this.frame, this.css);
       if (this.options.body) {
-        return append(document.body, this.frame);
+        append(document.body, this.frame);
+      }
+      return this.initializeKey();
+    };
+
+    Overlay.prototype.initializeKey = function() {
+      var _this = this;
+
+      if (this.options.key && !this.initializedKey) {
+        this.initializedKey = true;
+        return this.ready(function() {
+          return _this.invokeTarget('initialize', _this.options.key);
+        });
       }
     };
 
     Overlay.prototype.open = function() {
       var _base,
         _this = this;
+
+      this.initializeKey();
       this.ready(function() {
         var options;
+
         options = except(_this.options, 'body', 'script', 'document', 'token');
         return _this.invokeTarget('render', 'overlay', options);
       });
@@ -992,6 +1022,7 @@ if (!JSON) {
 
     Overlay.prototype.close = function() {
       var _this = this;
+
       return this.ready(function() {
         return _this.invokeTarget('close');
       });
@@ -999,6 +1030,7 @@ if (!JSON) {
 
     Overlay.prototype.getTarget = function() {
       var _ref1;
+
       return (_ref1 = this.frame) != null ? _ref1.contentWindow : void 0;
     };
 
@@ -1015,6 +1047,7 @@ if (!JSON) {
 
     Overlay.prototype.setToken = function(token) {
       var _base;
+
       if (typeof (_base = this.options).token === "function") {
         _base.token(token);
       }
@@ -1024,6 +1057,7 @@ if (!JSON) {
 
     Overlay.prototype.closed = function() {
       var _base;
+
       this.frame.style.display = 'none';
       this.toggleTabIndex(true);
       return typeof (_base = this.options).closed === "function" ? _base.closed() : void 0;
@@ -1032,6 +1066,7 @@ if (!JSON) {
     Overlay.prototype.renderFrame = function() {
       var iframe,
         _this = this;
+
       iframe = document.createElement('iframe');
       iframe.setAttribute('frameBorder', '0');
       iframe.setAttribute('allowtransparency', 'true');
@@ -1045,6 +1080,7 @@ if (!JSON) {
 
     Overlay.prototype.toggleTabIndex = function(enabled) {
       var element, elements, index, _i, _len, _results;
+
       elements = $('button, input, select, textarea');
       _results = [];
       for (_i = 0, _len = elements.length; _i < _len; _i++) {
@@ -1076,35 +1112,27 @@ if (!JSON) {
   App = StripeCheckout.App;
 
   StripeCheckout.Button = (function() {
-
     Button.prototype.defaults = {
       label: 'Pay with Card',
       host: 'https://button.stripe.com',
-      cssPath: '/assets/inner/button.css',
+      cssPath: '/v2/inner/button.css',
       tokenName: 'stripeToken'
     };
 
     function Button(options) {
       var _base;
+
       if (options == null) {
         options = {};
       }
       this.setOptions = __bind(this.setOptions, this);
-
       this.parentHead = __bind(this.parentHead, this);
-
       this.parentForm = __bind(this.parentForm, this);
-
       this.token = __bind(this.token, this);
-
       this.open = __bind(this.open, this);
-
       this.submit = __bind(this.submit, this);
-
       this.append = __bind(this.append, this);
-
       this.render = __bind(this.render, this);
-
       this.setOptions(options);
       (_base = this.options).token || (_base.token = this.token);
       this.$el = document.createElement('button');
@@ -1112,6 +1140,7 @@ if (!JSON) {
       this.$el.className = 'stripe-button-el';
       bind(this.$el, 'click', this.submit);
       bind(this.$el, 'touchstart', function() {});
+      App.setOptions(this.options);
       this.render();
     }
 
@@ -1134,6 +1163,7 @@ if (!JSON) {
     Button.prototype.append = function() {
       var head,
         _this = this;
+
       if (this.options.script) {
         insertAfter(this.options.script, this.$el);
       }
@@ -1186,6 +1216,7 @@ if (!JSON) {
 
     Button.prototype.token = function(value) {
       var $input;
+
       if (this.options.script) {
         trigger(this.options.script, 'token', value);
       }
@@ -1199,6 +1230,7 @@ if (!JSON) {
 
     Button.prototype.renderInput = function(value) {
       var input;
+
       input = document.createElement('input');
       input.type = 'hidden';
       input.name = this.options.tokenName;
@@ -1208,6 +1240,7 @@ if (!JSON) {
 
     Button.prototype.parentForm = function() {
       var el, elements, _i, _len, _ref1;
+
       elements = parents(this.$el);
       for (_i = 0, _len = elements.length; _i < _len; _i++) {
         el = elements[_i];
@@ -1220,11 +1253,13 @@ if (!JSON) {
 
     Button.prototype.parentHead = function() {
       var _ref1, _ref2;
+
       return ((_ref1 = this.options.document) != null ? _ref1.head : void 0) || ((_ref2 = this.options.document) != null ? _ref2.getElementsByTagName('head')[0] : void 0) || this.options.document.body;
     };
 
     Button.prototype.setOptions = function(options) {
       var elementOptions, key, value, _base, _ref1, _ref2;
+
       if (options == null) {
         options = {};
       }
@@ -1292,9 +1327,11 @@ if (!JSON) {
 
   (function() {
     var button, el, element;
+
     element = $$('stripe-button');
     element = (function() {
       var _i, _len, _results;
+
       _results = [];
       for (_i = 0, _len = element.length; _i < _len; _i++) {
         el = element[_i];
