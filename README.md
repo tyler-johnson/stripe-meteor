@@ -1,4 +1,4 @@
-A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>, direct copy of <https://js.stripe.com/v2/>), Stripe Checkout (<https://stripe.com/docs/checkout>, direct copy of <https://checkout.stripe.com/v2/checkout.js>), and Stripe for Node.js (<https://github.com/abh/node-stripe>).
+A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>, direct copy of <https://js.stripe.com/v2/>), Stripe Checkout (<https://stripe.com/docs/checkout>, direct copy of <https://checkout.stripe.com/v2/checkout.js>), and Stripe for Node.js (<https://github.com/stripe/stripe-node>).
 
 ## Usage
 
