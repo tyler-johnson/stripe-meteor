@@ -28,4 +28,4 @@ And then use it:
 		console.log(err, res);
 	});
 
-For a complete reference, please see the original: <https://github.com/abh/node-stripe>
+For a complete reference, please see the original: <https://github.com/stripe/stripe-node>
