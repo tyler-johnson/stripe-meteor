@@ -2,7 +2,7 @@ Package.describe({
 	summary: "Stripe.js and Node-Stripe brought to Meteor."
 });
 
-Npm.depends({ "stripe": "2.3.2" });
+Npm.depends({ "stripe": "2.3.4" });
 
 Package.on_use(function (api) {
 	
