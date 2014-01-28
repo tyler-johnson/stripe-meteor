@@ -4,7 +4,7 @@ A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>, dire
 
 Using Meteor's Package System:
 
-1. Make a new directory named `packages` in the root of your app directory.
+1. Make a new directory named `packages` in the root of your app directory (if needed).
 
 		$ mkdir packages
 		
