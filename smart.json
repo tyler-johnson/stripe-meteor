@@ -3,6 +3,6 @@
 	"description": "Stripe.js and Node-Stripe brought to Meteor.",
 	"homepage": "https://github.com/appleifreak/stripe-meteor",
 	"author": "Tyler Johnson (http://tylerjohnson.me)",
-	"version": "1.5.5",
+	"version": "1.5.6",
 	"git": "https://github.com/appleifreak/stripe-meteor.git"
 }
