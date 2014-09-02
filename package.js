@@ -1,15 +1,15 @@
 Package.describe({
-	summary: "Stripe.js and Node-Stripe brought to Meteor."
+	summary: "Stripe.js and Node-Stripe brought to Meteor.",
+	version: "1.5.6",
+	name: "mrgalaxy:stripe",
+	git: "https://github.com/tyler-johnson/stripe-meteor.git"
 });
 
 Npm.depends({ "stripe": "2.8.0" });
 
-Package.on_use(function (api) {
-	
-	// ensure backwards compatibility with Meteor pre-0.6.5
+Package.onUse(function (api) {
 	if (api.export) api.export('STRIPEMETEOR');
-    
-	api.add_files('stripe_client.js', 'client');
-	api.add_files('stripe_checkout.js', 'client');
-	api.add_files('stripe_server.js', 'server');
+	api.addFiles('stripe_client.js', 'client');
+	api.addFiles('stripe_checkout.js', 'client');
+	api.addFiles('stripe_server.js', 'server');
 });
