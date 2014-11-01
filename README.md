@@ -4,18 +4,8 @@ A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>, dire
 
 Using Meteor's Package System:
 
-1. Make a new directory named `packages` in the root of your app directory (if needed).
+	$ meteor add mrgalaxy:stripe
 
-		$ mkdir packages
-		
-2. Copy the contents of this repository to a folder named `stripe`. We use `git clone` to simplify this process.
-
-		$ git clone git@github.com:appleifreak/stripe-meteor.git stripe
-		
-3. Tell your Meteor app about the new package.
-
-		$ meteor add stripe
-		
 Using Meteorite:
 
 	$ mrt add stripe
