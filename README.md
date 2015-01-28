@@ -18,6 +18,35 @@ The same as in the Stripe docs (<https://stripe.com/docs/stripe.js>). Example fo
 
     Stripe.setPublishableKey('YOUR_PUBLISHABLE_KEY');
 
+**Checkout**
+
+To use [Stripe Checkout](https://stripe.com/docs/checkout#integration-custom) to open a payment form, add the script tag in the `<head>` of your template file:
+
+	<head>
+	    <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+	</head>
+
+And manually open the Stripe modal, e.g. in an event listener attached to a "Pay" button:
+
+	Template.payment.events({
+	    'click button.pay': function() {
+	        StripeCheckout.open({
+	            key: 'YOUR PUBLIC KEY',
+	            amount: 5000,
+	            name: 'The Store',
+	            description: 'A whole bag of awesome ($50.00)',
+	            panelLabel: 'Pay Now',
+	            token: function(res) {
+	                // Do something with res.id
+	                // Store it in Mongo and/or create a charge on the server-side
+	                console.info(res);
+	            }
+	        });
+	    }
+	});
+
+Stripe will use the "token" function as its callback when the response is returned. The id attribute of that response object is the credit card token, which you use to charge the customer.
+
 ### Server
 
 To initiate a Stripe object:
