@@ -5,7 +5,7 @@ Package.describe({
 	git: "https://github.com/tyler-johnson/stripe-meteor.git"
 });
 
-Npm.depends({ "stripe": "3.1.0" });
+Npm.depends({ "stripe": "3.0.3" });
 
 Package.onUse(function (api) {
 	if (api.export) api.export('STRIPEMETEOR');
