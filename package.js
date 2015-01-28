@@ -1,11 +1,11 @@
 Package.describe({
 	summary: "Stripe.js and Node-Stripe brought to Meteor.",
-	version: "1.5.6",
+	version: "1.5.7",
 	name: "mrgalaxy:stripe",
 	git: "https://github.com/tyler-johnson/stripe-meteor.git"
 });
 
-Npm.depends({ "stripe": "2.8.0" });
+Npm.depends({ "stripe": "3.1.0" });
 
 Package.onUse(function (api) {
 	if (api.export) api.export('STRIPEMETEOR');
