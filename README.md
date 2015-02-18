@@ -14,7 +14,7 @@ Using Meteor's Package System:
 
 ### Client
 
-Stripe.js is now loaded after all other Meteor scripts so the `Stripe` variable is not going to available when your app first runs. Instead, all calls need to be made after your Meteor app has started, like so:
+Stripe.js is now loaded directly from stripe.com and this happens after all other Meteor scripts are loaded. As such, the `Stripe` variable is not immediately available for use so instead, calls need to be deferred until after your Meteor app has started, like so:
 
 ```js
 Meteor.startup(function() {
@@ -22,7 +22,7 @@ Meteor.startup(function() {
 });
 ```
 
-The same goes for StripeCheckout, too:
+The same goes for Stripe Checkout, too:
 
 ```js
 Meteor.startup(function() {
