@@ -1,4 +1,8 @@
-A Meteor package containing Stripe.js (<https://stripe.com/docs/stripe.js>, direct copy of <https://js.stripe.com/v2/>), Stripe Checkout (<https://stripe.com/docs/checkout>, direct copy of <https://checkout.stripe.com/checkout.js>), and Stripe for Node.js (<https://github.com/stripe/stripe-node>).
+A Meteor package containing [Stripe](https://stripe.com) scripts:
+
+- [Stripe.js](https://stripe.com/docs/stripe.js)
+- [Stripe Checkout](https://stripe.com/docs/checkout)
+- [Stripe for Node.js](https://github.com/stripe/stripe-node)
 
 ## Install
 
@@ -6,17 +10,30 @@ Using Meteor's Package System:
 
 	$ meteor add mrgalaxy:stripe
 
-Using Meteorite:
-
-	$ mrt add stripe
-
 ## Usage
 
 ### Client
 
-The same as in the Stripe docs (<https://stripe.com/docs/stripe.js>). Example for reference:
+Stripe.js is now loaded after all other Meteor scripts so the `Stripe` variable is not going to available when your app first runs. Instead, all calls need to be made after your Meteor app has started, like so:
 
+```js
+Meteor.startup(function() {
     Stripe.setPublishableKey('YOUR_PUBLISHABLE_KEY');
+});
+```
+
+The same goes for StripeCheckout, too:
+
+```js
+Meteor.startup(function() {
+    var handler = StripeCheckout.configure({
+		key: 'YOUR_PUBLISHABLE_KEY',
+		token: function(token) {}
+	});
+});
+```
+
+See the Stripe docs (<https://stripe.com/docs/stripe.js>, <https://stripe.com/docs/checkout>) for all the API specifics.
 
 ### Server
 
