@@ -33,26 +33,43 @@ Meteor.startup(function() {
 });
 ```
 
+In order to remain PCI compliant under the new DSS 3.0 rules, ***never*** send credit card details to the server. Use client-side credit card details to create a secure token, per this example:
+
+```js
+ccNum = $('#ccnum').val();
+cvc = $('#cvc').val();
+expMo = $('#exp-month').val();
+expYr = $('#exp-year').val();
+
+Stripe.card.createToken({
+	number: ccNum,
+	cvc: cvc,
+	exp_month: expMo,
+	exp_year: expYr,
+}, function(status, response) {
+	stripeToken = response.id;
+	Meteor.call('chargeCard', stripeToken);
+});
+```
+
 See the Stripe docs (<https://stripe.com/docs/stripe.js>, <https://stripe.com/docs/checkout>) for all the API specifics.
 
 ### Server
 
-To initiate a Stripe object:
-
-    var Stripe = StripeAPI('YOUR_SECRET_API_KEY');
-
-And then use it:
+```js
+Meteor.methods({
+  'chargeCard': function(stripeToken) {
+    var Stripe = StripeAPI('SECRET_KEY');
 
     Stripe.charges.create({
-		amount: 1000,
-		currency: "USD",
-		card: {
-			number: "4242424242424242",
-			exp_month: "03",
-			exp_year: "2017"
-		}
-	}, function (err, res) {
-		console.log(err, res);
-	});
+      amount: 1000,
+      currency: 'usd',
+      source: stripeToken
+    }, function(err, charge) {
+      console.log(err, charge);
+    });
+  }
+});
+```
 
 For a complete reference, please see the original: <https://github.com/stripe/stripe-node>
