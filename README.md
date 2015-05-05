@@ -8,7 +8,7 @@ A Meteor package containing [Stripe](https://stripe.com) scripts:
 
 Using Meteor's Package System:
 
-	$ meteor add mrgalaxy:stripe
+	$ meteor add benjick:stripe
 
 ## Usage
 
