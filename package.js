@@ -11,7 +11,6 @@ Package.onUse(function(api) {
 	api.versionsFrom('1.0.1');
 	if (api.export) api.export('STRIPEMETEOR');
 	api.use(['templating'], 'client');
-	api.addFiles('stripe_client.html', 'client');
 	api.addFiles('stripe_server.js', 'server');
 });
 
