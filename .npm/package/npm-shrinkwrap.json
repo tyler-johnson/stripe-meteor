@@ -1,16 +1,16 @@
 {
   "dependencies": {
     "stripe": {
-      "version": "http://registry.npmjs.org/stripe/-/stripe-3.2.0.tgz",
+      "version": "3.7.0",
       "dependencies": {
         "bluebird": {
-          "version": "2.9.9"
+          "version": "2.9.34"
         },
         "qs": {
-          "version": "2.3.3"
+          "version": "2.4.2"
         },
         "lodash": {
-          "version": "3.2.0"
+          "version": "3.10.0"
         }
       }
     }
