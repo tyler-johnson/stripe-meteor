@@ -14,7 +14,13 @@ Using Meteor's Package System:
 
 ### Client
 
-Stripe.js is now loaded directly from stripe.com and this happens after all other Meteor scripts are loaded. As such, the `Stripe` variable is not immediately available for use so instead, calls need to be deferred until after your Meteor app has started, like so:
+In order for Stripe.js to be loaded directly on iOS and Android a new rule needs to be created in your `mobile-config.js` located in the root of your project. Create the new file if it doesn't already exist and insert the line below.
+
+```js
+App.accessRule('https://*.stripe.com/*');
+```
+
+In order to allow the `Stripe` variable to be accessible it must be loaded in the `Meteor.startup`. This will ensure that calls are deferred until after your Meteor app has started.
 
 ```js
 Meteor.startup(function() {
