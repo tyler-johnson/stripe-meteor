@@ -1,6 +1,6 @@
 Package.describe({
 	summary: "Stripe.js and Node-Stripe brought to Meteor.",
-	version: "2.2.0",
+	version: "2.2.1",
 	name: "mrgalaxy:stripe",
 	git: "https://github.com/tyler-johnson/stripe-meteor.git"
 });
