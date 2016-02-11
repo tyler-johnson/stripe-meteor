@@ -5,7 +5,7 @@ Package.describe({
 	git: "https://github.com/tyler-johnson/stripe-meteor.git"
 });
 
-Npm.depends({ "stripe": "4.0.0" });
+Npm.depends({ "stripe": "4.4.0" });
 
 Package.onUse(function(api) {
 	api.versionsFrom('1.0.1');
